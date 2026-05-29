@@ -1,79 +1,88 @@
-# FoLiOAi — Seller Finance Intelligence
+<div align="center">
 
-AI-powered Amazon seller reconciliation. Deterministic leakage detection, GST audit, TCS recovery.
+<img src="https://img.shields.io/badge/FoLiOAi-Seller%20Finance%20Intelligence-7F77DD?style=for-the-badge&logoColor=white" alt="FoLiOAi" />
 
----
+<br/>
+<br/>
 
-## Quick Start (Cursor / local dev)
+**AI-powered Amazon India seller reconciliation.**
+Deterministic leakage detection · GST audit · TCS recovery · Gemini AI narratives
 
-### 1. Install dependencies
-```bash
-npm install
-```
+<br/>
 
-### 2. Set your Gemini API key
-Edit `.env.local`:
-```
-GEMINI_API_KEY="your_key_from_aistudio.google.com"
-APP_URL="http://localhost:3000"
-```
-Get a free key at: https://aistudio.google.com/app/apikey
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-folioai--production.up.railway.app-1D9E75?style=flat-square&logo=railway&logoColor=white)](https://folioai-production.up.railway.app/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-95%25-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-Vite-61DAFB?style=flat-square&logo=react&logoColor=black)](https://vitejs.dev/)
+[![Firebase](https://img.shields.io/badge/Firebase-Auth%20%2B%20Firestore-FFCA28?style=flat-square&logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![Gemini](https://img.shields.io/badge/Google-Gemini%20AI-4285F4?style=flat-square&logo=google&logoColor=white)](https://aistudio.google.com/)
+[![Railway](https://img.shields.io/badge/Deployed%20on-Railway-0B0D0E?style=flat-square&logo=railway&logoColor=white)](https://railway.app/)
 
-### 3. Run
-```bash
-npm run dev
-```
-Open http://localhost:3000
-
-> **No Redis needed in dev.** The app uses an in-memory Redis mock automatically.
-> For production, set `REDIS_URL=redis://...` in `.env.local`.
+</div>
 
 ---
 
-## Firebase setup (for Auth + Firestore)
+## What is FoLiOAi?
 
-The app ships with the demo Firebase project credentials from your `firebase-applet-config.json`.
-To use your own Firebase project:
+Amazon India sellers lose thousands of rupees every month to undetected leakage — short payments, GST mismatches, and TCS discrepancies buried in dense settlement CSVs. FoLiOAi solves this.
 
-1. Go to https://console.firebase.google.com
-2. Create a project → Enable **Authentication** (Google provider) and **Firestore**
-3. Add a Web app, copy the config
-4. Replace the values in `src/lib/firebase.ts`
-5. Deploy Firestore rules: `firebase deploy --only firestore:rules`
+Upload your settlement report and get an instant, auditable breakdown of where your money went — and how much is recoverable.
+
+> **Core design rule:** AI never computes. Every ₹ figure is produced by deterministic TypeScript functions. Gemini only writes the plain-language narrative around numbers it didn't touch.
 
 ---
 
-## Project structure
+## Features
+
+| Feature | Description |
+|---|---|
+| Revenue & profit breakdown | Per-SKU and per-month P&L from raw settlement data |
+| Leakage detection | 5 leakage types flagged with exact source row references |
+| GST / TCS / TDS reconciliation | Mismatch table with full audit trail |
+| AI narrative | Gemini-powered plain-language financial summary |
+| Confidence scoring | High / Medium / Low data quality score on every report |
+| DPDP Act 2023 compliance | Consent modal gates every file upload |
+| Paywall pattern | Teaser shows recoverable amount, detail locked behind Growth plan |
+
+---
+
+## Tech Stack
+
+```
+Frontend    React 18 + TypeScript + Vite
+Backend     Express + BullMQ (job queue)
+AI          Google Gemini API
+Auth & DB   Firebase Authentication + Firestore
+Deployment  Railway (production) · In-memory Redis mock (dev)
+```
+
+---
+
+## Project Structure
 
 ```
 folio-ai/
-├── server.ts                    ← Express backend (BullMQ jobs, AI chat API)
+├── server.ts                         ← Express backend · BullMQ jobs · AI chat API
 ├── src/
-│   ├── App.tsx                  ← Main router + auth gate
-│   ├── main.tsx
-│   ├── index.css
-│   ├── types/index.ts           ← All TypeScript types
+│   ├── App.tsx                       ← Main router + auth gate
+│   ├── types/index.ts                ← All TypeScript types
 │   ├── lib/
-│   │   ├── queue.ts             ← BullMQ queue + worker
-│   │   ├── firebase.ts          ← Firebase client
+│   │   ├── queue.ts                  ← BullMQ queue + worker
+│   │   ├── firebase.ts               ← Firebase client
 │   │   ├── reconcile/
-│   │   │   ├── parser.ts        ← CSV ingestion + column mapping
-│   │   │   ├── leakage.ts       ← Deterministic leakage detection (5 types)
-│   │   │   ├── gst.ts           ← GST + TCS reconciliation
-│   │   │   ├── settlement.ts    ← Totals, SKU profitability, monthly trends
-│   │   │   └── confidence.ts    ← Data quality scoring
+│   │   │   ├── parser.ts             ← CSV ingestion + column mapping
+│   │   │   ├── leakage.ts            ← Deterministic leakage detection (5 types)
+│   │   │   ├── gst.ts                ← GST + TCS reconciliation
+│   │   │   ├── settlement.ts         ← Totals · SKU profitability · monthly trends
+│   │   │   └── confidence.ts         ← Data quality scoring
 │   │   └── ai/
-│   │       └── narrative.ts     ← Gemini narrative (uses computed numbers only)
-│   ├── hooks/
-│   │   ├── useAuth.ts
-│   │   └── useReport.ts
+│   │       └── narrative.ts          ← Gemini narrative layer
 │   ├── pages/
 │   │   ├── Upload.tsx
 │   │   └── Dashboard.tsx
 │   └── components/
 │       ├── auth/
 │       │   ├── LoginPage.tsx
-│       │   └── ConsentModal.tsx  ← DPDP Act 2023 compliance
+│       │   └── ConsentModal.tsx      ← DPDP Act 2023 compliance
 │       ├── dashboard/
 │       │   ├── MetricCards.tsx
 │       │   ├── LeakageBreakdown.tsx
@@ -86,33 +95,98 @@ folio-ai/
 │       └── shared/
 │           └── Navbar.tsx
 ├── firestore.rules
+├── Dockerfile
+├── docker-compose.yml
 ├── vite.config.ts
-├── tsconfig.json
-└── package.json
+└── tsconfig.json
 ```
 
 ---
 
-## Key design rules
+## Getting Started
 
-1. **AI never computes.** All ₹ figures come from deterministic TypeScript functions in `src/lib/reconcile/`.
-2. **Every leakage item has `sourceRows[]`** — row numbers in the original file for audit trail.
-3. **Confidence score on every report** — High / Medium / Low based on data completeness.
-4. **Consent before upload** — `ConsentModal` gates every file (DPDP Act 2023).
-5. **Paywall pattern** — blur + overlay shows teaser "We found ₹X", locks detail behind Growth plan.
+### Prerequisites
+
+- Node.js 18+
+- A [Gemini API key](https://aistudio.google.com/app/apikey) (free)
+- A [Firebase project](https://console.firebase.google.com/) with Auth + Firestore enabled
+
+### 1. Clone & install
+
+```bash
+git clone https://github.com/sajid-mohd/FoLiO.ai.git
+cd FoLiO.ai
+npm install
+```
+
+### 2. Configure environment
+
+Create `.env.local`:
+
+```env
+GEMINI_API_KEY="your_gemini_key"
+APP_URL="http://localhost:3000"
+
+# Production only
+# REDIS_URL="redis://your-redis-url"
+```
+
+> No Redis needed in dev — the app uses an in-memory mock automatically.
+
+### 3. Run
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000)
 
 ---
 
-To unlock paid features in dev: update `plan` field in Firestore for your user document to `"growth"`.
+## Firebase Setup
+
+1. Go to [Firebase Console](https://console.firebase.google.com)
+2. Create a project → enable **Authentication** (Google provider) and **Firestore**
+3. Add a Web app and copy the config
+4. Replace values in `src/lib/firebase.ts`
+5. Deploy rules:
+
+```bash
+firebase deploy --only firestore:rules
+```
+
+To unlock Growth plan features in dev, set the `plan` field to `"growth"` on your Firestore user document.
+
+---
+
+## Docker
+
+```bash
+docker-compose up --build
+```
+
+---
+
+## Design Principles
+
+1. **Deterministic first** — all financial figures come from pure TypeScript functions, never from AI inference
+2. **Audit trail** — every leakage item carries `sourceRows[]` pointing back to the original CSV
+3. **Trust by default** — confidence score on every report so sellers know how reliable the data is
+4. **Privacy compliant** — DPDP Act 2023 consent modal before any data leaves the browser
+5. **Honest monetisation** — teaser shows real recoverable amount; paywall locks the breakdown, not the insight
 
 ---
 
 ## Legal
 
-- Financial disclaimer shown on every page — informational only, not CA advice.
-- DPDP Act 2023 consent modal before any file upload.
-- Data stored in Firebase (Google Cloud).
-=======
-# FoLiO.ai
-FoLiOAI is an AI-powered settlement analytics tool for Amazon  India sellers. Upload your settlement report and get an instant  breakdown of revenue, profit, recoverable leakage, and a full  GST/TCS/TDS tax summary — all computed deterministically from  your raw data.
->>>>>>> c420874c316ca2e69cdb76dc7178bbfa2f2e29c2
+- All figures are informational only and do not constitute CA or tax advice
+- DPDP Act 2023 consent obtained before every file upload
+- Data stored on Google Cloud infrastructure via Firebase
+
+---
+
+<div align="center">
+
+Built by [Mohammad Sajid](https://www.linkedin.com/in/mohammadsajid2) · Bengaluru, India
+
+</div>
