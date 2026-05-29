@@ -104,19 +104,6 @@ folio-ai/
 
 ---
 
-## Plans
-
-| Feature                  | Free | Growth (₹999/mo) | Pro (₹2,999/mo) |
-|--------------------------|------|------------------|------------------|
-| Upload & analyse         | ✓    | ✓                | ✓                |
-| Leakage total            | ✓    | ✓                | ✓                |
-| Full leakage breakdown   | ✗    | ✓                | ✓                |
-| GST mismatch detail      | ✗    | ✓                | ✓                |
-| SKU profitability        | ✗    | ✓                | ✓                |
-| Monthly trends           | ✗    | ✓                | ✓                |
-| CSV export               | ✗    | ✓                | ✓                |
-| AI chat                  | ✓    | ✓                | ✓                |
-
 To unlock paid features in dev: update `plan` field in Firestore for your user document to `"growth"`.
 
 ---
