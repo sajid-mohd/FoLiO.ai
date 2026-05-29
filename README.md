@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # FoLiOAi — Seller Finance Intelligence
 
 AI-powered Amazon seller reconciliation. Deterministic leakage detection, GST audit, TCS recovery.
